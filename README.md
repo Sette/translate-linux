@@ -45,13 +45,15 @@ Ou execute diretamente do diretório do projeto:
 
 ## Uso
 
-Selecione um texto em um aplicativo e execute `notitrans`. Uma janela mostrará o conteúdo original e a tradução. Também é possível configurar `notitrans` como atalho de teclado nas configurações do seu ambiente de desktop. Por exemplo, crie um atalho personalizado cujo comando seja:
+Depois de instalar o script, configure o atalho pela interface gráfica do ambiente de desktop:
 
-```text
-notitrans
-```
+1. Abra **Configurações** e procure por **Teclado** ou **Atalhos de teclado**.
+2. Escolha **Atalhos personalizados** (ou opção equivalente) e adicione um atalho.
+3. Defina um nome, como **Traduzir seleção**, e informe `notitrans` como comando. Se não instalou o script em `/usr/local/bin`, informe o caminho completo para o arquivo, por exemplo `/caminho/para/translate-linux/notitrans`.
+4. Use a opção para definir a combinação de teclas e pressione as teclas que deseja associar.
+5. Salve o atalho. Selecione um texto em outro aplicativo e pressione a combinação escolhida; a janela exibirá o texto original e a tradução.
 
-O caminho para configurar atalhos varia entre GNOME, KDE Plasma, Xfce e outros ambientes. Depois de criar o atalho, selecione o texto que deseja traduzir e pressione a combinação escolhida.
+Os nomes e a localização dessas opções variam conforme o ambiente. No GNOME, procure **Configurações → Teclado → Atalhos de teclado → Ver e personalizar atalhos → Atalhos personalizados**. No KDE Plasma, procure **Configurações do sistema → Teclado → Atalhos**; no Xfce, **Configurações → Teclado → Atalhos de aplicativos**. Em cada caso, escolha a opção para adicionar um atalho personalizado.
 
 ## Limitações
 
