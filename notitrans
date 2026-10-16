@@ -1,5 +1,30 @@
 #!/usr/bin/env bash
-text="$(xsel -o)"
+
+if [[ -n "${WAYLAND_DISPLAY:-}" ]]; then
+    if ! command -v wl-paste >/dev/null 2>&1; then
+        zenity --error --title="Translation" --text="Wayland support requires wl-paste. Install the wl-clipboard package."
+        exit 1
+    fi
+    if ! text="$(wl-paste --primary --no-newline 2>/dev/null)"; then
+        zenity --error --title="Translation" --text="Could not read the primary selection. Check whether your Wayland compositor supports it."
+        exit 1
+    fi
+else
+    if ! command -v xsel >/dev/null 2>&1; then
+        zenity --error --title="Translation" --text="X11 support requires xsel."
+        exit 1
+    fi
+    if ! text="$(xsel --output --primary 2>/dev/null)"; then
+        zenity --error --title="Translation" --text="Could not read the selected text."
+        exit 1
+    fi
+fi
+
+if [[ -z "$text" ]]; then
+    zenity --error --title="Translation" --text="Select some text before running notitrans."
+    exit 1
+fi
+
 translate="$(wget -U "Mozilla/5.0" -qO - "http://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=pt-br&dt=t&q=$(echo $text | sed "s/[\"'<>]//g")" | sed "s/,,,0]],,.*//g" | awk -F'"' '{print $2, $6}')"
 echo -e "Original text:" "$text"'\n' > /tmp/notitrans
 echo "Translation:" "$translate" >> /tmp/notitrans

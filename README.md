@@ -6,7 +6,7 @@ Traduza rapidamente para português do Brasil um texto selecionado no desktop Li
 
 Ao executar, o script:
 
-1. Lê o texto selecionado com `xsel`.
+1. Lê o texto selecionado com `wl-paste` em sessões Wayland ou `xsel` em sessões X11.
 2. Envia o texto pela internet ao endpoint público de tradução do Google, com detecção automática do idioma de origem e destino `pt-br`.
 3. Mostra o texto original e a tradução em uma janela do `zenity`.
 
@@ -18,10 +18,10 @@ Em distribuições baseadas em Debian ou Ubuntu, instale as dependências com:
 
 ```sh
 sudo apt-get update
-sudo apt-get install libnotify-bin wget xsel zenity
+sudo apt-get install libnotify-bin wget wl-clipboard xsel zenity
 ```
 
-O script usa `xsel` para acessar a seleção do X11 e `zenity` para exibir o resultado. Portanto, precisa ser executado em uma sessão gráfica compatível com essas ferramentas.
+O script usa `wl-paste` (pacote `wl-clipboard`) para acessar a seleção primária do Wayland, `xsel` para a seleção primária do X11 e `zenity` para exibir o resultado. Execute-o em uma sessão gráfica. Em Wayland, a leitura da seleção primária também depende de o compositor oferecer esse recurso.
 
 ## Instalação
 
@@ -58,7 +58,7 @@ Os nomes e a localização dessas opções variam conforme o ambiente. No GNOME,
 ## Limitações
 
 - O idioma de destino está definido no script como português do Brasil (`pt-br`); o idioma de origem é detectado automaticamente.
-- A leitura da seleção depende do `xsel` e do mecanismo de seleção do X11. Em sessões Wayland, o acesso à seleção pode não funcionar conforme esperado.
+- Em Wayland, o script usa `wl-paste --primary`; o compositor precisa oferecer suporte à seleção primária. Em X11, usa `xsel`.
 - O script depende de um endpoint público de tradução e de conexão com a internet.
 - Se não houver texto selecionado, ou se a tradução falhar, a janela pode aparecer sem uma tradução útil.
 
@@ -66,5 +66,5 @@ Os nomes e a localização dessas opções variam conforme o ambiente. No GNOME,
 
 - **O comando não é encontrado:** confirme que `/usr/local/bin` está no `PATH`, ou execute `./notitrans` no diretório do projeto.
 - **A janela não aparece:** verifique se `zenity` está instalado e se o comando foi iniciado dentro da sessão gráfica.
-- **O texto não é lido:** confirme que há uma seleção ativa e que `xsel` está instalado. Em Wayland, pode ser necessário usar uma sessão X11.
+- **O texto não é lido:** confirme que há uma seleção ativa. Em Wayland, instale `wl-clipboard` e verifique se o compositor oferece suporte à seleção primária; em X11, instale `xsel`.
 - **A tradução não retorna:** confira a conexão com a internet e tente novamente mais tarde; o serviço remoto pode estar indisponível.
